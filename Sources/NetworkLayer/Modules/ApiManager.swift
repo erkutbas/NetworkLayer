@@ -46,8 +46,8 @@ final public class ApiManager: ApiManagerProtocol {
             if let data = alamofireResponseData.data {
                 do {
                     // server side returns logical business error message
-                    var dataDecoded = try jsonDecoder.decode(ErrorResponse.self, from: data)
-                    single(.failure(dataDecoded.setApiConnectionErrorType(by: .serverError(self.returnStatusCode(data: alamofireResponseData)))))
+                    let dataDecoded = try jsonDecoder.decode(ServerResponse.self, from: data)
+                    single(.failure(ErrorResponse(serverResponse: dataDecoded, apiConnectionErrorType: .serverError(self.returnStatusCode(data: alamofireResponseData)))))
                 } catch _ {
                     // unacceptable status codes, data can not be decoded such as internal server errors 500 etc...
                     single(.failure(ErrorResponse(apiConnectionErrorType: .missingData(self.returnStatusCode(data: alamofireResponseData)))))
