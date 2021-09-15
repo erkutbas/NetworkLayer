@@ -10,6 +10,8 @@ import Alamofire
 
 final public class ApiRetrier: RequestRetrier {
 
+    public init() {}
+    
     public func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
 
         guard let task = request.task, let response = task.response as? HTTPURLResponse else {
